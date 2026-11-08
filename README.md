@@ -5,7 +5,8 @@ Independent developer building on-chain research and low-latency trading infrast
 ## Selected work (private repos — walkthrough on request)
 
 **Cyclic-arbitrage engine for Robinhood Chain (Arbitrum Nitro), Rust**
-- Own Nitro node fed by a sequencer-feed relay; relay hot path (receive → timestamp → fan-out) at ~1.4 µs per 52 KB message, zero-copy, no JSON parsing on the hot path.
+- Custom Nitro node built for sub-millisecond execution, co-located with the bot.
+- Custom feed infrastructure: own sequencer-feed relay in Rust (receive → timestamp → fan-out at ~1.4 µs per 52 KB message, zero-copy, no JSON parsing on the hot path), feed-to-head latency measured per message.
 - In-memory pool state for Uniswap v2/v3/v4-style pools: TickMath/SqrtPriceMath/SwapMath reimplemented bit-exact against the chain, state advanced from receipts with per-swap verification.
 - Per-block decision engine: cycle enumeration over ~10k pools, provably loss-free pre-filter (closed-form, ~50 ns), size optimisation per route; deterministic replay that reproduces every decision bit-identically.
 - Execution path: allocation-free signing and raw HTTP/1.1 sending, profiled down to the µs.
