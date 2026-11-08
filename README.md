@@ -1,10 +1,20 @@
 # JP
 
-Independent developer building on-chain research and trading infrastructure, mainly on Solana.
+Independent developer building on-chain research and low-latency trading infrastructure (Solana, EVM).
 
-- **Solana data warehouse:** own parquet/DuckDB warehouse of DEX trades, transfers and liquidity events across all major venues, used to measure arbitrage and MEV flows per epoch.
-- **Execution tooling:** Python for research, Rust for execution; transaction landing via block-engine and staked-connection services.
-- **EVM:** earlier arbitrage bot and Base trade warehouse.
-- **Web:** small products such as Zonnescan, a per-roof solar yield calculator for installers.
+## Selected work (private repos — walkthrough on request)
 
-Most of this lives in private repos. Happy to walk through it on request.
+**Cyclic-arbitrage engine for Robinhood Chain (Arbitrum Nitro), Rust**
+- Own Nitro node fed by a sequencer-feed relay; relay hot path (receive → timestamp → fan-out) at ~1.4 µs per 52 KB message, zero-copy, no JSON parsing on the hot path.
+- In-memory pool state for Uniswap v2/v3/v4-style pools: TickMath/SqrtPriceMath/SwapMath reimplemented bit-exact against the chain, state advanced from receipts with per-swap verification.
+- Per-block decision engine: cycle enumeration over ~10k pools, provably loss-free pre-filter (closed-form, ~50 ns), size optimisation per route; deterministic replay that reproduces every decision bit-identically.
+- Execution path: allocation-free signing and raw HTTP/1.1 sending, profiled down to the µs.
+- Market study over 50M swaps: capture rates, opportunity lifetimes, competitor mapping.
+
+**Solana arbitrage & MEV research**
+- Own parquet/DuckDB warehouse of DEX trades, transfers and liquidity events across all major venues.
+- Atomic-arbitrage detection per epoch, trigger → backrun latency per slot, on-chain net P&L per searcher after priority fees, tips and failed transactions.
+
+**Other:** Base trade warehouse; Zonnescan, a per-roof solar yield calculator for installers.
+
+Python for research, Rust for execution.
