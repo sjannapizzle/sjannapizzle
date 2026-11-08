@@ -14,7 +14,7 @@ Independent developer building on-chain research and low-latency trading infrast
 
 **Solana arbitrage & MEV research**
 - Own parquet/DuckDB warehouse of DEX trades, transfers and liquidity events across all major venues.
-- Atomic-arbitrage detection per epoch, trigger → backrun latency per slot, on-chain net P&L per searcher after priority fees, tips and failed transactions.
+- Atomic-arbitrage detection at transaction level; trigger → backrun latency per slot and position in the block; on-chain net P&L per searcher after priority fees, tips and failed transactions.
 
 **Other:** Base trade warehouse; Zonnescan, a per-roof solar yield calculator for installers.
 
